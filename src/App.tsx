@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/App.tsx
 
-function App() {
+import React, { useState } from 'react';
+import useResize from './hooks/useResize';
+import useCounter from './hooks/useCounter';
+
+const App: React.FC = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useResize(() => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  });
+
+  const { count, increment, decrement, reset } = useCounter(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: 'center', padding: '20px' }}>
+      <h1>窗口大小</h1>
+      <p>宽度: {windowSize.width}px</p>
+      <p>高度: {windowSize.height}px</p>
+
+      <h1>计数器</h1>
+      <p>当前计数: {count}</p>
+      <button onClick={increment}>递增</button>
+      <button onClick={decrement}>递减</button>
+      <button onClick={reset}>重置</button>
     </div>
   );
-}
+};
 
 export default App;
